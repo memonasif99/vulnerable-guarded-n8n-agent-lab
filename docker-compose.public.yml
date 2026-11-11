@@ -1,0 +1,9 @@
+# Adds a public HTTPS listener on port 8443 that exposes only the webhook.
+# Use with: docker compose -f docker-compose.yml -f docker-compose.public.yml up -d
+# Needs certs/lab.crt and certs/lab.key (deploy/aws/bootstrap.sh makes a self-signed pair).
+services:
+  proxy:
+    ports: ["8443:8443"]
+    volumes:
+      - ./proxy/public.conf:/etc/nginx/lab.d/public.conf:ro
+      - ./certs:/etc/nginx/certs:ro

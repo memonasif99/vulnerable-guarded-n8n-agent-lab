@@ -9,9 +9,11 @@ Everything runs locally with Docker. The "LLM" and the "CRM" are small mock
 services with fake data, so you don't need an API key or internet access once
 the images are pulled.
 
-> **Local lab only.** It uses demo session tokens and plain HTTP, and it binds
-> to `127.0.0.1`. Don't expose it to a network or reuse it as-is in production.
-> See "Not covered here" in the controls doc for what production needs on top.
+> **Local by default.** The base setup uses demo session tokens and plain HTTP,
+> and it binds to `127.0.0.1`. To run it on the internet, use the AWS
+> deployment in [deploy/aws](deploy/aws/README.md). It exposes only the webhook,
+> over HTTPS on port 8443. Don't reuse this as-is in production. See "Not
+> covered here" in the controls doc for what production needs on top.
 
 ## What the agent does
 
@@ -97,6 +99,8 @@ See what happened on the CRM side, including denied calls and pending refunds:
 | `mocks/crm.py` | Mock CRM with scoped keys, ownership checks and an audit log |
 | `mocks/llm.py` | Deterministic mock LLM, OpenAI-style API |
 | `tests/` | Smoke test and audit viewer |
+| `docker-compose.public.yml`, `proxy/public.conf` | Optional public HTTPS listener on 8443, webhook only |
+| `deploy/aws/` | CloudFormation template and bootstrap for an always-on EC2 lab in Singapore |
 | `docs/CONTROLS.md` | Each guardrail, what it stops, and its OWASP mapping |
 
 ## Importing the workflow into your own n8n
